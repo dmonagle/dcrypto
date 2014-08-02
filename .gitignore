@@ -1,0 +1,4 @@
+﻿dub.userprefs
+.dub/*
+__test__library__
+libdcrypto.a
