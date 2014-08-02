@@ -1,10 +1,12 @@
 ﻿module dcrypto.evp;
 
-import std.string;
+public import dcrypto.key;
+import dcrypto.dcrypto;
 
 import deimos.openssl.evp;
 
-import dcrypto.key;
+import std.string;
+
 
 class EVPEncryptDecryptBase {
 public
@@ -26,11 +28,11 @@ protected:
 	}
 }
 
-class EVPEncryptor : EVPEncryptDecryptBase {
+class EVPEncryptor : EVPEncryptDecryptBase, Encryptor {
 	this() { super(); }
 	this(const ref Key key) { super(key); }
 	
-	string encrypt(string input) {
+	override string encrypt(const string input) {
 		auto source = representation(input);
 		auto buffer = new ubyte[](source.length + EVP_MAX_BLOCK_LENGTH);
 		int length, lengthFinal;
@@ -48,11 +50,11 @@ protected:
 	}
 }
 
-class EVPDecryptor : EVPEncryptDecryptBase {
+class EVPDecryptor : EVPEncryptDecryptBase, Decryptor {
 	this() { super(); }
 	this(const ref Key key) { super(key); }
 	
-	string decrypt(string input) {
+	override string decrypt(const string input) {
 		auto source = representation(input);
 		auto buffer = new ubyte[](source.length + EVP_MAX_BLOCK_LENGTH);
 		int length, lengthFinal;
