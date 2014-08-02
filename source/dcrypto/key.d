@@ -11,17 +11,20 @@ import dcrypto.dcrypto;
 struct Key {
 	ubyte[] key, iv, salt;
 
+	/// Allocates memory for the requested key lengths. By default they are set to the maximum values per the openssl library.
 	void setSize(int keyLength = EVP_MAX_KEY_LENGTH, int ivLength = EVP_MAX_IV_LENGTH) {
 		key = new ubyte[](keyLength);
 		iv = new ubyte[](ivLength);
 	}
-	
+
+	/// Creates a random salt of the specified size.
 	ref Key randomizeSalt(size_t size = 8) {
 		salt = new ubyte[](size);
 		fillRandom!ubyte(salt);
 		return this;
 	}
-	
+
+	/// Creates a random key and iv of the specified size
 	ref Key randomize(int keyLength = EVP_MAX_KEY_LENGTH, int ivLength = EVP_MAX_IV_LENGTH) {
 		setSize(keyLength, ivLength);
 		fillRandom!ubyte(key);
@@ -31,7 +34,7 @@ struct Key {
 	
 }
 
-/// Build and return a key with a random salt generated
+/// Build and return a key based on secret data with a random salt generated
 Key keyFromSecret(string data, int rounds = 200, int keyLength = EVP_MAX_KEY_LENGTH, int ivLength = EVP_MAX_IV_LENGTH) {
 	Key returnKey;
 
@@ -44,7 +47,7 @@ Key keyFromSecret(string data, int rounds = 200, int keyLength = EVP_MAX_KEY_LEN
 	return returnKey;
 }
 
-/// Build and return a key with the specified salt
+/// Build and return a key based on secret data using the specified salt
 Key keyFromSecret(string data, string salt, int rounds = 200, int keyLength = EVP_MAX_KEY_LENGTH, int ivLength = EVP_MAX_IV_LENGTH) {
 	Key returnKey;
 

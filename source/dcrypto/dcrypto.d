@@ -8,8 +8,11 @@ void fillRandom(T, D)(ref D dest) {
 	foreach(ref token; dest) token = uniform!"[]"(T.min, T.max);
 }
 
-interface Crypto {
-	string decrypt(string encrypted);
-	string encrypt(string input);
+interface Encryptor {
+	string encrypt(const string input);
+}
+
+interface Decryptor {
+	string decrypt(const string input);
 }
 
