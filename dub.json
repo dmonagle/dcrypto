@@ -1,0 +1,11 @@
+{
+	"name": "dcrypto",
+	"description": "A minimal D application.",
+	"copyright": "Copyright © 2014, David Monagle",
+	"authors": ["David Monagle"],
+	"dependencies": {
+		"openssl": "~master"
+	},
+	"license": "MIT",
+	"description": "Wraps the openssl library to enable easy two way encryption."
+}
