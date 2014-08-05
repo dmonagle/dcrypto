@@ -1,10 +1,10 @@
-﻿= dcrypto
+﻿h1. dcrypto
 
-== Summary
+h2. Summary
 
 Wraps the openssl library to enable easy two way encryption. 
 
-== Example
+h2. Example
 
 	import dcrypto.evp;
 
@@ -24,3 +24,25 @@ Wraps the openssl library to enable easy two way encryption.
 	assert(decryptor.decrypt(encrypted2) == "This is a second decrypted string");
 	assert(decryptor.decrypt(encrypted) == "This is a decrypted string");
 	assert(decryptor.decrypt(encrypted2) == "This is a second decrypted string");
+
+h2. Encrypted Properties
+
+There is a mixin which allows an encrypted string to be added to a structure or class with a properties for
+automatic encryption and decryption.
+
+If vibe.d is included, the accessor property is automatically ignored when serialized.
+
+	struct User {
+		string username;
+		mixin (encryptedProperty("password", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+		mixin (encryptedProperty("creditCard", "ZYXWVUTSRXPONMLKJIHGFEDCBA"));
+	}
+	
+	User user;
+	user.username = "David";
+	user.password = "SuperSecretPassword";
+	user.creditCard = "1234 5258 4566 9789";
+	
+	assert(user.password_encrypted_ != "SuperSecretPassword");
+	assert(user.password == "SuperSecretPassword");
+	assert(user.creditCard == "1234 5258 4566 9789");
