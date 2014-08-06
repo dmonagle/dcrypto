@@ -1,10 +1,10 @@
-﻿h1. dcrypto
+﻿# dcrypto
 
-h2. Summary
+## Summary
 
 Wraps the openssl library to enable easy two way encryption. 
 
-h2. Example
+## Example
 
 	import dcrypto.evp;
 
@@ -25,7 +25,7 @@ h2. Example
 	assert(decryptor.decrypt(encrypted) == "This is a decrypted string");
 	assert(decryptor.decrypt(encrypted2) == "This is a second decrypted string");
 
-h2. Encrypted Properties
+## Encrypted Properties
 
 There is a mixin which allows an encrypted string to be added to a structure or class with a properties for
 automatic encryption and decryption.
