@@ -51,7 +51,7 @@ Key keyFromSecret(string data, int rounds = 200, int keyLength = EVP_MAX_KEY_LEN
 Key keyFromSecret(string data, string salt, int rounds = 200, int keyLength = EVP_MAX_KEY_LENGTH, int ivLength = EVP_MAX_IV_LENGTH) {
 	Key returnKey;
 
-	returnKey.salt = representation(salt);
+	returnKey.salt = representation(salt).dup;
 	returnKey.setSize(keyLength, ivLength);
 
 	auto d = representation(data);
