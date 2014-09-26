@@ -3,6 +3,7 @@
 import dcrypto.evp;
 import std.string;
 import std.typecons;
+import std.base64;
 
 version (Have_vibe_d) {
 	import vibe.data.json;
@@ -12,14 +13,18 @@ string encryptProperty(const string value, const string secret) {
 	auto key = keyFromSecret(secret);
 	auto encrypter = new EVPEncryptor(key);
 	
-	return cast(string)key.salt ~ encrypter.encrypt(value);
+	auto joined = key.salt ~ representation(encrypter.encrypt(value));
+	
+	return Base64.encode(joined);
 }
 
 string decryptProperty(const string value, const string secret) {
-	auto key = keyFromSecret(secret, value[0..8]);
+	auto data = cast(string)Base64.decode(value);
+	assert(data.length > 8, "The value for the encrypted property is not long enough");
+	auto key = keyFromSecret(secret, data[0..8]);
 	auto decrypter = new EVPDecryptor(key);
 	
-	return decrypter.decrypt(value[8..$]);
+	return decrypter.decrypt(data[8..$]);
 }
 
 string encryptedProperty(string name, string secret) {
@@ -55,6 +60,8 @@ unittest {
 	user.password = "SuperSecretPassword";
 	user.creditCard = "1234 5258 4566 9789";
 	
+	auto output = Base64.encode(representation(user.password_encrypted_));
+
 	assert(user.password_encrypted_ != "SuperSecretPassword");
 	assert(user.password == "SuperSecretPassword");
 	assert(user.creditCard == "1234 5258 4566 9789");
