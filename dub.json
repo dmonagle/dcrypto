@@ -4,8 +4,8 @@
 	"copyright": "Copyright © 2014, David Monagle",
 	"authors": ["David Monagle"],
 	"dependencies": {
-		"openssl": "~master"
+		"openssl": ">=1.0.0+1.0.0e"
 	},
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"license": "MIT",
 }
