@@ -19,6 +19,7 @@ string encryptProperty(const string value, const string secret) {
 }
 
 string decryptProperty(const string value, const string secret) {
+	if (!value.length) return value;
 	auto data = cast(string)Base64.decode(value);
 	assert(data.length > 8, "The value for the encrypted property is not long enough");
 	auto key = keyFromSecret(secret, data[0..8]);
@@ -57,6 +58,9 @@ unittest {
 	
 	User user;
 	user.username = "David";
+
+	assert(user.password == "");
+
 	user.password = "SuperSecretPassword";
 	user.creditCard = "1234 5258 4566 9789";
 	
